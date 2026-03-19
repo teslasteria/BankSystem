@@ -1,20 +1,21 @@
+from decimal import Decimal
 from pydantic import BaseModel, Field, field_validator
 
 
 class OperationRequest(BaseModel):
-    wallet_name: str = Field(..., max_lenght=27)
-    amount: float
-    description: str | None = Field(None, max_lenght=255)
+    wallet_name: str = Field(..., max_length=27)
+    amount: Decimal
+    description: str | None = Field(None, max_length=255)
 
     @field_validator('amount')
-    def amount_must_be_positive(cls, value: float) -> float:
+    def amount_must_be_positive(cls, value: Decimal) -> Decimal:
         if value < 0:
             raise ValueError('Amount must be positive')
 
         return value
 
     @field_validator('wallet_name')
-    def wallet_name_not_empty(cls, value: str) -> str:
+    def wallet_name_not_empty(cls, value: Decimal) -> Decimal:
         value = value.strip()
 
         if not value:
@@ -24,8 +25,8 @@ class OperationRequest(BaseModel):
 
 
 class CreateWalletRequest(BaseModel):
-    name: str = Field(..., max_lenght=27)
-    initial_balance: float = 0
+    name: str = Field(..., max_length=27)
+    initial_balance: Decimal = 0
 
     @field_validator('name')
     def name_not_empty(cls, value: str) -> str:
@@ -37,7 +38,7 @@ class CreateWalletRequest(BaseModel):
         return value
 
     @field_validator('initial_balance')
-    def balance_not_negative(cls, value: float) -> float:
+    def balance_not_negative(cls, value: Decimal) -> Decimal:
         if value < 0:
             raise ValueError('Initial balance can not be negative')
 
