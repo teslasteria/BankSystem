@@ -11,9 +11,9 @@ router = APIRouter()
 
 @router.get('/balance')
 def get_balance(wallet_name: str | None = None, db: Session = Depends(get_db)):
-    return wallets_service.get_balance(wallet_name)
+    return wallets_service.get_balance(db, wallet_name)
 
 
 @router.post('/wallets')
 def create_wallet(wallet: CreateWalletRequest, db: Session = Depends(get_db)):
-    return wallets_service.create_wallet(wallet)
+    return wallets_service.create_wallet(db, wallet)

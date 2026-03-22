@@ -43,3 +43,12 @@ class CreateWalletRequest(BaseModel):
             raise ValueError('Initial balance can not be negative')
 
         return value
+
+
+class UserRequest(BaseModel):
+    login: str = Field(..., max_length=127)
+
+
+class UserResponse(UserRequest):
+    model_config = {'from_attributes': True}
+    id: int
